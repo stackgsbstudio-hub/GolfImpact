@@ -1,12 +1,23 @@
 import mongoose from "mongoose";
 
+let isConnected = false;
+
 async function DbConnection() {
+  if (isConnected) {
+    return;
+  }
+
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    const db = await mongoose.connect(process.env.MONGO_URL);
+
+    isConnected = db.connections[0].readyState === 1;
+
     console.log("DB Connected");
   } catch (error) {
-    console.error("Connection Error:", error.message);
-    process.exit(1);
+    console.error("DB Connection Error:", error.message);
+
+    // Vercel/serverless me process.exit(1) mat karo
+    throw error;
   }
 }
 

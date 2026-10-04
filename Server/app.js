@@ -18,7 +18,6 @@ import donationRoutes from "./Routes/donationRoutes.js";
 import drawRoutes from "./Routes/drawRoutes.js";
 import winnerRoutes from "./Routes/winnerRoutes.js";
 import DashboardRoutes from "./Routes/DashboardRoute.js";
-import emailTestRoutes from "./Routes/emailTestRoutes.js";
 
 // =====================================================
 // ENV CONFIG
@@ -45,7 +44,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
   }),
 );
@@ -57,21 +56,21 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    },
   }),
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/api/email-test", emailTestRoutes);
 
 // =====================================================
-// STATIC FILES
+// LEGACY STATIC FILES
 // =====================================================
-// Example:
-// /uploads/charities/image.webp
-//
-// Browser:
-// http://localhost:8180/uploads/charities/image.webp
+// Keep temporarily for old local /uploads records.
+// New uploads use Cloudinary.
 // =====================================================
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -87,37 +86,24 @@ DbConnection();
 // =====================================================
 
 app.use("/api/auth", AuthRoute);
-
 app.use("/api/users", UserRoutes);
-
 app.use("/api/payment", PaymentRoutes);
-
 app.use("/api/scores", scoreRoutes);
-
 app.use("/api/charities", charityRoutes);
-
 app.use("/api/donations", donationRoutes);
-
 app.use("/api/draws", drawRoutes);
-
 app.use("/api/winners", winnerRoutes);
-
 app.use("/api/dashboard", DashboardRoutes);
 
 // =====================================================
-// TEST ROUTE
+// HEALTH CHECK
 // =====================================================
 
 app.get("/", (req, res) => {
-  res.send("API Running...");
+  res.status(200).json({
+    success: true,
+    message: "GolfImpact API Running",
+  });
 });
 
-// =====================================================
-// SERVER
-// =====================================================
-
-const PORT = process.env.PORT || 8180;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export default app;
