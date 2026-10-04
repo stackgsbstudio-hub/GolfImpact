@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import PageTitle from "./PageTitle";
 
-const API_URL = "http://localhost:8180";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const UserDashboard = () => {
   const navigate = useNavigate();

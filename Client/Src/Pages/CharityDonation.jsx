@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import PageTitle from "../Components/PageTitle";
 
-const API_URL = "http://localhost:8180";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CharityDonation = () => {
   const navigate = useNavigate();

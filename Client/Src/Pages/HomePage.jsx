@@ -149,7 +149,7 @@ const HomePage = () => {
     const fetchFeaturedCharity = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8180/api/charities/featured",
+          `${import.meta.env.VITE_API_URL}/api/charities/featured`,
         );
 
         const data = await response.json();
@@ -243,7 +243,7 @@ const HomePage = () => {
 
       // 1. CREATE ORDER
       const response = await fetch(
-        "http://localhost:8180/api/payment/create-order",
+        `${import.meta.env.VITE_API_URL}/api/payment/create-order`,
         {
           method: "POST",
           headers: {
@@ -290,7 +290,7 @@ const HomePage = () => {
 
             // 4. VERIFY PAYMENT
             const verifyResponse = await fetch(
-              "http://localhost:8180/api/payment/verify",
+              `${import.meta.env.VITE_API_URL}/api/payment/verify`,
               {
                 method: "POST",
 
@@ -711,9 +711,13 @@ const HomePage = () => {
                           <img
                             src={
                               charity.image
-                                ? `http://localhost:8180${charity.image}`
+                                ? charity.image.startsWith("http")
+                                  ? charity.image
+                                  : `${import.meta.env.VITE_API_URL}${charity.image}`
                                 : charity.images?.[0]
-                                  ? `http://localhost:8180${charity.images[0]}`
+                                  ? charity.images[0].startsWith("http")
+                                    ? charity.images[0]
+                                    : `${import.meta.env.VITE_API_URL}${charity.images[0]}`
                                   : ""
                             }
                             alt={charity.name}

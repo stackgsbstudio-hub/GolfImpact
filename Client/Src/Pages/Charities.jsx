@@ -17,7 +17,7 @@ import Footer from "../Components/Footer";
 import CharityBanner from "../../assests/image/charity-banner.png";
 import PageTitle from "../Components/PageTitle";
 
-const API_URL = "http://localhost:8180";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getImageUrl = (image) => {
   if (!image) return "";

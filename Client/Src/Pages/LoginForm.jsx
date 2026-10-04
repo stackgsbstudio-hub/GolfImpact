@@ -41,16 +41,19 @@ const Login = () => {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:8180/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      );
 
       const data = await response.json();
 
@@ -203,8 +206,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        window.location.href =
-                          "http://localhost:8180/api/auth/google?intent=login";
+                        window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google?intent=login`;
                       }}
                     >
                       <img
@@ -217,8 +219,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        window.location.href =
-                          "http://localhost:8180/api/auth/facebook?intent=login";
+                        window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/facebook?intent=login`;
                       }}
                     >
                       <img

@@ -16,7 +16,7 @@ import FacebookLogo from "../../assests/image/Facebook-logo.webp";
 import { useState } from "react";
 import PageTitle from "../Components/PageTitle";
 
-const API_URL = "http://localhost:8180";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -343,8 +343,7 @@ const Signup = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        window.location.href =
-                          "http://localhost:8180/api/auth/google?intent=signup";
+                        window.location.href = `${API_URL}/api/auth/google?intent=signup`;
                       }}
                     >
                       <img
@@ -357,8 +356,7 @@ const Signup = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        window.location.href =
-                          "http://localhost:8180/api/auth/facebook?intent=signup";
+                        window.location.href = `${API_URL}/api/auth/facebook?intent=signup`;
                       }}
                     >
                       <img
