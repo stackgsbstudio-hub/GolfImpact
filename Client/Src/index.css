@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-gradientblink: gradientblink 3s ease infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes gradientblink {
+    0% {
+      background-position: 50% 50%;
+      opacity: 0.7;
+    }
+    50% {
+      background-position: 100% 50%;
+      opacity: 1;
+    }
+    100% {
+      background-position: 0% 50%;
+      opacity: 0.7;
+    }
+  }
+}
+
+@theme {
+  --breakpoint-3xl: 1500px;
+  --breakpoint-4xl: 1600px;
+}
+
+@keyframes menuOpen {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes menuClose {
+  0% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+}
+
+.menu {
+  transform-origin: top;
+  animation: menuOpen 0.3s ease forwards;
+}
