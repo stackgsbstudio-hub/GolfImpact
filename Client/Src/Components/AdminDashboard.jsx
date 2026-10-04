@@ -29,7 +29,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import PageTitle from "../Components/PageTitle";
+import PageTitle from "./PageTitle";
 
 const API_URL = "http://localhost:8180";
 
