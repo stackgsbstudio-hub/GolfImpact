@@ -1,9 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import fs from "fs";
-import path from "path";
 import { sendEmail } from "../utils/emailService.js";
+import { uploadBufferToCloudinary } from "../utils/cloudinaryUpload.js";
 
 // ==============================
 // Register User
@@ -455,7 +454,12 @@ export const uploadProfileImage = async (req, res) => {
       });
     }
 
-    user.profileImage = `/uploads/profiles/${req.file.filename}`;
+    const uploadResult = await uploadBufferToCloudinary(
+      req.file.buffer,
+      "golfimpact/profiles",
+    );
+
+    user.profileImage = uploadResult.secure_url;
 
     await user.save();
 
@@ -494,16 +498,6 @@ export const deleteProfileImage = async (req, res) => {
         success: false,
         message: "No profile image to remove.",
       });
-    }
-
-    // Delete local file if it exists
-    if (user.profileImage.startsWith("/uploads/profiles/")) {
-      const relativePath = user.profileImage.replace(/^\/+/, "");
-      const filePath = path.resolve(relativePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
     }
 
     user.profileImage = "";
