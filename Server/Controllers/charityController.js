@@ -153,8 +153,6 @@ export const getCharities = async (req, res) => {
 
 export const getFeaturedCharity = async (req, res) => {
   try {
-    const allCharities = await Charity.find({});
-
     const charities = await Charity.find({
       featured: true,
       active: true,

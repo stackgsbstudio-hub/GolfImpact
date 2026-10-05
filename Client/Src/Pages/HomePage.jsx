@@ -141,6 +141,22 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const getCharityImage = (charity) => {
+    const image = charity?.image || charity?.images?.[0];
+
+    if (!image) return "";
+
+    // Cloudinary / external image
+    if (image.startsWith("http://") || image.startsWith("https://")) {
+      return image;
+    }
+
+    // Legacy local upload
+    return `${API_URL}${image.startsWith("/") ? image : `/${image}`}`;
+  };
+
   /* =========================
    FEATURED CHARITY
 ========================= */
@@ -701,63 +717,100 @@ const HomePage = () => {
                     </p>
                   </div>
                 ) : featuredCharities.length > 0 ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-6">
                     {featuredCharities.map((charity) => (
                       <div
                         key={charity._id}
-                        className="flex flex-col sm:flex-row sm:items-center gap-5 bg-gray-900 p-4 border border-gray-800 rounded-2xl transition-all duration-300 hover:scale-[1.01] hover:border-purple-500/40 group"
+                        className="
+      group
+      flex flex-col md:flex-row
+      bg-gray-900
+      border border-gray-800
+      rounded-2xl
+      overflow-hidden
+      min-h-60
+      transition-all duration-300
+      hover:border-purple-500/40
+      hover:-translate-y-1
+    "
                       >
-                        <figure className="w-full sm:w-48 aspect-4/3 shrink-0 overflow-hidden rounded-2xl">
-                          <img
-                            src={
-                              charity.image
-                                ? charity.image.startsWith("http")
-                                  ? charity.image
-                                  : `${import.meta.env.VITE_API_URL}${charity.image}`
-                                : charity.images?.[0]
-                                  ? charity.images[0].startsWith("http")
-                                    ? charity.images[0]
-                                    : `${import.meta.env.VITE_API_URL}${charity.images[0]}`
-                                  : ""
-                            }
-                            alt={charity.name}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
+                        {/* IMAGE */}
+                        <figure
+                          className="
+        relative
+        w-full
+        h-55
+        sm:h-65
+        md:h-auto
+        md:w-[42%]
+        lg:w-[40%]
+        xl:w-[42%]
+        shrink-0
+        overflow-hidden
+        bg-[#0D1520]
+      "
+                        >
+                          {getCharityImage(charity) ? (
+                            <img
+                              src={getCharityImage(charity)}
+                              alt={charity.name}
+                              loading="lazy"
+                              className="
+            absolute inset-0
+            w-full h-full
+            object-cover
+            object-center
+            transition-transform duration-500
+            group-hover:scale-105
+          "
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center bg-[#0D1520]">
+                              <Heart className="w-10 h-10 text-purple-400/60" />
+                            </div>
+                          )}
                         </figure>
 
-                        <div className="flex justify-between items-center w-full gap-3">
-                          <div className="text-white flex flex-col gap-2 flex-1 min-w-0">
+                        {/* CONTENT */}
+                        <div className="flex flex-col flex-1 min-w-0 p-5 sm:p-6">
+                          {/* TOP CONTENT */}
+                          <div className="flex flex-col flex-1">
                             <span className="text-purple-400 text-xs font-medium uppercase tracking-wider">
                               Featured Charity
                             </span>
 
-                            <h3 className="font-bold text-lg">
+                            <h3 className="font-bold text-lg text-white mt-2 wrap-break-word">
                               {charity.name}
                             </h3>
 
-                            <p className="text-sm text-gray-300 line-clamp-2">
+                            <p className="text-sm text-gray-300 line-clamp-2 mt-2 leading-6">
                               {charity.description}
                             </p>
 
-                            {charity.category && (
-                              <span className="text-sm text-green-500">
-                                {charity.category}
-                              </span>
-                            )}
+                            <div className="flex flex-wrap items-center gap-2 mt-3">
+                              {charity.category && (
+                                <span className="text-xs text-green-400 bg-green-500/10 px-3 py-1.5 rounded-full">
+                                  {charity.category}
+                                </span>
+                              )}
 
-                            {charity.location && (
-                              <span className="text-xs text-gray-400">
-                                {charity.location}
-                              </span>
-                            )}
+                              {charity.location && (
+                                <span className="text-xs text-gray-400 bg-gray-800 px-3 py-1.5 rounded-full">
+                                  {charity.location}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          <div>
+
+                          {/* BUTTON */}
+                          <div className="flex items-end mt-5">
                             <Link
                               to={`/charities/${charity._id}`}
-                              className="mt-2 w-fit"
+                              className="w-full sm:w-auto"
                             >
-                              <Button>View Charity</Button>
+                              <Button className="w-full sm:w-auto">
+                                View Charity
+                              </Button>
                             </Link>
                           </div>
                         </div>
