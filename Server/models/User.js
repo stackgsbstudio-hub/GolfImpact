@@ -99,6 +99,43 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+
+    resetPasswordToken: {
+      type: String,
+      default: null,
+      select: false,
+    },
+
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
+    otpAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    otpLastSentAt: {
+      type: Date,
+      default: null,
+    },
+
+    passwordResetGrantHash: {
+      type: String,
+      default: null,
+    },
+
+    termsAcceptedAt: {
+      type: Date,
+      default: null,
+    },
+
+    termsVersion: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -80,18 +80,17 @@ const Signup = () => {
 
       const response = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           name: formData.name.trim(),
-          email: formData.email.trim(),
+          email: formData.email.trim().toLowerCase(),
           password: formData.password,
           phone: formData.phone.trim(),
           gender: formData.gender,
           dateOfBirth: formData.dateOfBirth,
+          termsAccepted,
         }),
       });
 
@@ -295,9 +294,20 @@ const Signup = () => {
 
                   <label htmlFor="checkbox" className="text-[14px]">
                     I agree to the{" "}
-                    <Link to="/terms" className="text-[#482ECE]">
+                    <Link
+                      to="/terms"
+                      className="text-[#9A8DFF] hover:underline"
+                    >
                       Terms & Conditions
+                    </Link>{" "}
+                    and acknowledge the{" "}
+                    <Link
+                      to="/privacy-policy"
+                      className="text-[#9A8DFF] hover:underline"
+                    >
+                      Privacy Policy
                     </Link>
+                    .
                   </label>
                 </div>
 

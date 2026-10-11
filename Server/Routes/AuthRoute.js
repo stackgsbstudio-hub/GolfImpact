@@ -3,6 +3,11 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 
 import { register, login } from "../Controllers/UserControllers.js";
+import {
+  forgotPassword,
+  verifyResetOtp,
+  resetPassword,
+} from "../Controllers/passwordResetController.js";
 
 const router = express.Router();
 
@@ -23,6 +28,10 @@ router.post("/login", login);
 // =====================================================
 // CREATE JWT
 // =====================================================
+
+router.post("/forgot-password", forgotPassword);
+router.post("/verify-reset-otp", verifyResetOtp);
+router.post("/reset-password", resetPassword);
 
 const createToken = (user) => {
   return jwt.sign(

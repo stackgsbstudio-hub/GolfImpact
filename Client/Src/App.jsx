@@ -13,6 +13,9 @@ import CharityDonation from "./Pages/CharityDonation";
 import AdminCharityForm from "./Pages/AdminCharityForm";
 import DrawExperience from "./Pages/DrawExperience";
 import OAuthSuccess from "./Pages/OAuthSuccess";
+import ForgotPassword from "./Pages/ForgotPassword";
+import TermsAndConditions from "./Pages/TermsAndConditions";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
         <Route path="/charities/:id/donate" element={<CharityDonation />} />
         <Route path="/draw-experience" element={<DrawExperience />} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
         {/* USER DASHBOARD */}
         <Route

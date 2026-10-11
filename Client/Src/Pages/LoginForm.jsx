@@ -179,9 +179,12 @@ const Login = () => {
 
               {/* Forgot Password */}
               <div className="flex w-full justify-end mt-8">
-                <a href="#" className="text-[#482ece] text-[14px]">
+                <Link
+                  to="/forgot-password"
+                  className="text-[#482ece] text-[14px]"
+                >
                   Forgot Password?
-                </a>
+                </Link>
               </div>
 
               <div className="flex justify-center flex-col gap-8 mt-8 items-center">
@@ -247,13 +250,8 @@ const Login = () => {
             <div>
               <p className="text-white text-[12px] text-center">
                 By logging in, you agree to our &nbsp;
-                <a href="#" className="text-[#482ECE]">
-                  Terms & Conditions &nbsp;
-                </a>
-                and &nbsp;
-                <a href="#" className="text-[#482ECE]">
-                  Privacy Policy
-                </a>
+                <Link to="/terms">Terms & Conditions</Link>
+                <Link to="/privacy-policy">Privacy Policy</Link>
               </p>
             </div>
           </div>

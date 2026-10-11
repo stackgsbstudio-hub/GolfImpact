@@ -10,7 +10,16 @@ import { uploadBufferToCloudinary } from "../utils/cloudinaryUpload.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, phone, gender, dateOfBirth } = req.body;
+    const { name, email, password, phone, gender, dateOfBirth, termsAccepted } =
+      req.body;
+
+    // NEW: Terms validation
+    if (termsAccepted !== true) {
+      return res.status(400).json({
+        success: false,
+        message: "You must accept the Terms & Conditions to register.",
+      });
+    }
 
     // Required Fields Validation
     if (!name || !email || !password || !phone || !gender || !dateOfBirth) {
@@ -49,7 +58,7 @@ export const register = async (req, res) => {
     }
 
     // Gender Validation
-    if (!["male", "female", "other"].includes(gender.toLowerCase())) {
+    if (!["male", "female", "Not Specify"].includes(gender.toLowerCase())) {
       return res.status(400).json({
         success: false,
         message: "Invalid gender.",
@@ -88,6 +97,8 @@ export const register = async (req, res) => {
       dateOfBirth,
       provider: "local",
       isActive: true,
+      termsAcceptedAt: new Date(),
+      termsVersion: "1.0",
     });
 
     // Welcome Email
